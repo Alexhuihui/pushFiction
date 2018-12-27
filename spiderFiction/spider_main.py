@@ -1,6 +1,4 @@
-from spiderFiction import url_manager, html_downloader, html_output, html_parser
-import datetime
-import time
+from spiderFiction import url_manager, html_downloader, html_output, html_parser, dao
 
 
 class SpiderMain(object):
@@ -10,26 +8,20 @@ class SpiderMain(object):
 		self.parser = html_parser.HtmlParser()
 		self.outputer = html_output.HtmlOutputer()
 		self.dao = dao.Dao()
+		
+	# 返回所有的小说的地址
+	def get_urls(self):
+		novel_urls = self.dao.select_novel()
+		return novel_urls
 	
-	def main(self, root_url, m=0, h=21):
-		while True:
-			now = datetime.datetime.now()
-			print(now.hour, now.minute)
-			# 每天晚上9点停止程序
-			if now.minute == m and now.hour == h:
-				break
-				# 每隔60秒爬取一次
-			time.sleep(60)
-			self.craw(root_url)
-	
-	def craw(self, root_url):
+	# 根据小说地址爬取小说的章节
+	def craw_chapter(self, urls):
 		count = 1
-		self.urls.add_new_url(root_url)
+		self.urls.add_new_urls(urls)
 		while self.urls.has_new_url():
 			try:
 				
 				new_url = self.urls.get_new_url()
-				self.urls.add_new_url(root_url)
 				
 				print('craw %d : %s' % (count, new_url))
 				
@@ -49,9 +41,11 @@ class SpiderMain(object):
 				print('craw failed')
 		
 		self.outputer.output_html()
+	
+	def craw_content(self, url):
+		pass
 
 
 if __name__ == '__main__':
-	root_url = 'https://wallstreetcn.com/live/global'
 	obj_spider = SpiderMain()
-	obj_spider.craw(root_url)
+	obj_spider.get_urls()

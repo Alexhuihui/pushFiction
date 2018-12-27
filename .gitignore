@@ -1,5 +1,5 @@
 *.class
-*.conf
+configParser.conf
 
 #package file
 *.war

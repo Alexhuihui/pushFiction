@@ -11,6 +11,10 @@ class ParserConfig:
 		self.cf.read(path)
 		return self.cf.get(section=section, option=option)
 	
+	def readIntValue(self, path, section, option):
+		self.cf.read(path)
+		return self.cf.getint(section=section, option=option)
+	
 	def readSections(self, path):
 		self.cf.read(path)
 		return self.cf.sections()
