@@ -37,12 +37,39 @@ class Dao(object):
 		except Exception as e:
 			print(e)
 			conn.rollback()
-			
+		
 		return novel_urls
 	
 	# 向novelchapter表中插入数据
-	def insert_chapter(self):
-		pass
+	def insert_chapter(self, chapter_list):
+		createtime = str(time.time())
+		insert_sql = "insert into novelchapter(novel_id, chapter_url, chapter_real_id, chapter_title, createtime) values('%d', '%s', '%d', '%s', '%s' ) " % (int(chapter_list[0]), chapter_list[1], int(chapter_list[2]), chapter_list[3], createtime)
+		try:
+			conn = self.get_conn()
+			cur = conn.cursor()
+			cur.execute(insert_sql)
+			conn.commit()
+		except Exception as e:
+			print(e)
+			conn.rollback()
+		cur.close()
+		conn.close()
+		
+	# 从novelchapter表中差寻是否包含某条记录
+	def select_chapter(self, chapter_list):
+		select_sql = "select COUNT(*) from novelchapter where novel_id = '%d' and chapter_real_id = '%d' " % (int(chapter_list[0]), int(chapter_list[2]))
+		rs = 0
+		try:
+			conn = self.get_conn()
+			cur = conn.cursor()
+			cur.execute(select_sql)
+			rs = cur.fetchall()
+		except Exception as e:
+			print(e)
+			conn.rollback()
+		cur.close()
+		conn.close()
+		return rs
 	
 	# 从数据库里查询content并返回true或false，比对要存入的数据，保证数据不重复
 	def select_check(self, data):
@@ -63,20 +90,6 @@ class Dao(object):
 		cur.close()
 		conn.close()
 		return flag
-	
-	def insert(self, contents):
-		createtimes = str(time.time())
-		insert_sql = "insert into information(content, createtime) values('%s', '%s' ) " % (contents, createtimes)
-		try:
-			conn = self.get_conn()
-			cur = conn.cursor()
-			cur.execute(insert_sql)
-			conn.commit()
-		except Exception as e:
-			print(e)
-			conn.rollback()
-		cur.close()
-		conn.close()
 	
 	def delete(self):
 		pass

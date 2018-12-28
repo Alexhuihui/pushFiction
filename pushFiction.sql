@@ -61,4 +61,13 @@ CREATE TABLE `novelchapterdetail` (
 insert  into novelinfo (novel_id, novel_url, novel_name)
 values
 (35569, "http://www.biquge.com.cn/book/35569/", "同桌凶猛"),
-(34197, "http://www.biquge.com.cn/book/34197/", "民国谍影");
+(34197, "http://www.biquge.com.cn/book/34197/", "民国谍影"),
+(30152, "http://www.biquge.com.cn/book/30152/", "反叛的大魔王"),
+(33710, "http://www.biquge.com.cn/book/33710/", "我要出租自己"),
+(32697, "http://www.biquge.com.cn/book/32697/", "大医凌然"),
+(34420, "http://www.biquge.com.cn/book/34420/", "我的女友真是大明星"),
+(36825, "http://www.biquge.com.cn/book/36825/", "龙族Ⅴ：悼亡者的归来"),
+(32460, "http://www.biquge.com.cn/book/32460/", "我真的长生不老"),
+(35016, "http://www.biquge.com.cn/book/35016/", "我真不是神仙"),
+(36681, "http://www.biquge.com.cn/book/36681/", "斗罗大陆IV终极斗罗"),
+(30594, "http://www.biquge.com.cn/book/30594/", "凡人修仙之仙界篇");
