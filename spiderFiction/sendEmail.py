@@ -1,11 +1,10 @@
 # -*- coding:utf-8 -*-
 import smtplib
 from email.mime.text import MIMEText
-from spiderFiction import dao
-from conf import readConfig
+from spiderFiction import dao, readConfig
 
 read = readConfig.ParserConfig()
-path = "../conf/configParser.conf"
+path = "configParser.conf"
 
 
 class Sender(object):

@@ -1,7 +1,6 @@
 import time
 
-from spiderFiction import html_downloader, html_parser, dao
-from sendEmail import sendEmail
+from spiderFiction import html_downloader, html_parser, dao, sendEmail
 
 
 class SpiderMain(object):
@@ -32,7 +31,7 @@ class SpiderMain(object):
 			if rs[0][0] != 1:
 				self.dao.insert_chapter(value)
 				self.craw_content(value)
-				self.send_email(value)
+				# self.send_email(value)
 		
 		data.clear()
 	
@@ -52,7 +51,7 @@ class SpiderMain(object):
 		urls = self.get_urls()
 		for url in urls:
 			self.get_chapter(url)
-		time.sleep(900)
+		# time.sleep(900)
 
 
 if __name__ == '__main__':
