@@ -23,7 +23,6 @@ class HtmlDownloader(object):
 					return r.text
 				
 				else:
-					
 					return None
 			
 			except Exception as e:

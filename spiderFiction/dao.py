@@ -43,7 +43,8 @@ class Dao(object):
 	# 向novelchapter表中插入数据
 	def insert_chapter(self, chapter_list):
 		createtime = str(time.time())
-		insert_sql = "insert into novelchapter(novel_id, chapter_url, chapter_real_id, chapter_title, createtime) values('%d', '%s', '%d', '%s', '%s' ) " % (int(chapter_list[0]), chapter_list[1], int(chapter_list[2]), chapter_list[3], createtime)
+		insert_sql = "insert into novelchapter(novel_id, chapter_url, chapter_real_id, chapter_title, createtime) values('%d', '%s', '%d', '%s', '%s' ) " % (
+		int(chapter_list[0]), chapter_list[1], int(chapter_list[2]), chapter_list[3], createtime)
 		try:
 			conn = self.get_conn()
 			cur = conn.cursor()
@@ -54,10 +55,11 @@ class Dao(object):
 			conn.rollback()
 		cur.close()
 		conn.close()
-		
+	
 	# 从novelchapter表中差寻是否包含某条记录
 	def select_chapter(self, chapter_list):
-		select_sql = "select COUNT(*) from novelchapter where novel_id = '%d' and chapter_real_id = '%d' " % (int(chapter_list[0]), int(chapter_list[2]))
+		select_sql = "select COUNT(*) from novelchapter where novel_id = '%d' and chapter_real_id = '%d' " % (
+		int(chapter_list[0]), int(chapter_list[2]))
 		rs = 0
 		try:
 			conn = self.get_conn()
@@ -70,6 +72,23 @@ class Dao(object):
 		cur.close()
 		conn.close()
 		return rs
+	
+	# 把章节内容插入到novelchapterdetail表中
+	def insert_content(self, value, chapter_text):
+		createtime = str(time.time())
+		insert_sql = "insert into `novelchapterdetail`(`novel_id`, `chapter_id`, `content_url`, `title`, `content`, `createtime`) values('%d', '%d', '%s', '%s', '%s', '%s' ) " % (
+			int(value[0]), int(value[2]), value[1], value[3], str(chapter_text), createtime)
+		try:
+			conn = self.get_conn()
+			cur = conn.cursor()
+			cur.execute(insert_sql)
+			conn.commit()
+		except Exception as e:
+			print(value[1])
+			print(e)
+			conn.rollback()
+		cur.close()
+		conn.close()
 	
 	# 从数据库里查询content并返回true或false，比对要存入的数据，保证数据不重复
 	def select_check(self, data):

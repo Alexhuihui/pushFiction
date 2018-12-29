@@ -33,11 +33,12 @@ class SpiderMain(object):
 		data.clear()
 	
 	# 根据小说的章节地址爬取内容, 并存入到数据库中
-	def craw_content(self, url):
-		pass
-		# html_content = self.downloader.download(url)
-		# print(html_content)
-		
+	def craw_content(self, value):
+		url = value[1]
+		html_content = self.downloader.download(url)
+		chapter_content = self.parser.parse_content(url, html_content)
+		self.dao.insert_content(value, chapter_content)
+	
 	# 发送邮件
 	def send_email(self):
 		pass
