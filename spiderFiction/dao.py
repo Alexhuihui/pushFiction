@@ -109,4 +109,4 @@ class Dao(object):
 
 if __name__ == '__main__':
 	dao = Dao()
-	print(dao.host)
+	dao.select_check("特斯拉涨幅扩大至5.5%。")

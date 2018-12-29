@@ -1,4 +1,3 @@
-# -*- coding:utf-8 -*-
 import time
 
 from spiderFiction import html_downloader, html_parser, dao
@@ -53,7 +52,6 @@ class SpiderMain(object):
 		urls = self.get_urls()
 		for url in urls:
 			self.get_chapter(url)
-		print("完成了一次巡查")
 		time.sleep(900)
 
 
