@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import time
 
 from spiderFiction import html_downloader, html_parser, dao
