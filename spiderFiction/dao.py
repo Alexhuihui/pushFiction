@@ -44,7 +44,7 @@ class Dao(object):
 	def insert_chapter(self, chapter_list):
 		createtime = str(time.time())
 		insert_sql = "insert into novelchapter(novel_id, chapter_url, chapter_real_id, chapter_title, createtime) values('%d', '%s', '%d', '%s', '%s' ) " % (
-		int(chapter_list[0]), chapter_list[1], int(chapter_list[2]), chapter_list[3], createtime)
+			int(chapter_list[0]), chapter_list[1], int(chapter_list[2]), chapter_list[3], createtime)
 		try:
 			conn = self.get_conn()
 			cur = conn.cursor()
@@ -59,7 +59,7 @@ class Dao(object):
 	# 从novelchapter表中差寻是否包含某条记录
 	def select_chapter(self, chapter_list):
 		select_sql = "select COUNT(*) from novelchapter where novel_id = '%d' and chapter_real_id = '%d' " % (
-		int(chapter_list[0]), int(chapter_list[2]))
+			int(chapter_list[0]), int(chapter_list[2]))
 		rs = 0
 		try:
 			conn = self.get_conn()
@@ -90,86 +90,21 @@ class Dao(object):
 		cur.close()
 		conn.close()
 	
-	# 从数据库里查询content并返回true或false，比对要存入的数据，保证数据不重复
-	def select_check(self, data):
-		select_sql = "select content from information where status = 0"
-		content = ""
-		flag = True
+	# 从novelchapterdetail表中查询小说内容
+	def select_content(self, novel_id, chapter_id):
+		select_sql = "select content from novelchapterdetail where novel_id = '%d' and chapter_id = '%d'" % (
+			novel_id, chapter_id)
 		try:
 			conn = self.get_conn()
 			cur = conn.cursor()
 			cur.execute(select_sql)
 			rs = cur.fetchall()
-			for r in rs:
-				if (str(r[0]) == str(data)):
-					flag = False
 		except Exception as e:
 			print(e)
 			conn.rollback()
 		cur.close()
 		conn.close()
-		return flag
-	
-	def delete(self):
-		pass
-	
-	def update(self):
-		update_sql = "update information set status = 1 where status = 0"
-		try:
-			conn = self.get_conn()
-			cur = conn.cursor()
-			cur.execute(update_sql)
-			conn.commit()
-		except Exception as e:
-			print(e)
-			conn.rollback()
-		cur.close()
-		conn.close()
-	
-	def select(self):
-		select_sql = "select content from information where status = 0"
-		content = ""
-		list = []
-		try:
-			conn = self.get_conn()
-			cur = conn.cursor()
-			cur.execute(select_sql)
-			rs = cur.fetchall()
-			for line in rs:
-				list.append(line)
-			for i in range(0, list.__len__()):
-				list[i] = str(list[i])
-			content = '\n'.join(list)
-			conn.commit()
-		except Exception as e:
-			print(e)
-			conn.rollback()
-		cur.close()
-		conn.close()
-		self.update()
-		return content
-	
-	def select_once_data(self):
-		select_sql = "select content from information where status = 0"
-		content = ""
-		list = []
-		try:
-			conn = self.get_conn()
-			cur = conn.cursor()
-			cur.execute(select_sql)
-			rs = cur.fetchall()
-			for line in rs:
-				list.append(line)
-			for i in range(0, list.__len__()):
-				list[i] = str(list[i])
-			content = '\n'.join(list)
-			conn.commit()
-		except Exception as e:
-			print(e)
-			conn.rollback()
-		cur.close()
-		conn.close()
-		return content
+		return rs
 
 
 if __name__ == '__main__':

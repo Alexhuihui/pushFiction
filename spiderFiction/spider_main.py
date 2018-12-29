@@ -1,4 +1,5 @@
 from spiderFiction import html_downloader, html_parser, dao
+from sendEmail import sendEmail
 
 
 class SpiderMain(object):
@@ -6,6 +7,7 @@ class SpiderMain(object):
 		self.downloader = html_downloader.HtmlDownloader()
 		self.parser = html_parser.HtmlParser()
 		self.dao = dao.Dao()
+		self.send = sendEmail.Sender()
 	
 	# 返回所有的小说的地址
 	def get_urls(self):
@@ -28,7 +30,7 @@ class SpiderMain(object):
 			if rs[0][0] != 1:
 				self.dao.insert_chapter(value)
 				self.craw_content(value)
-				self.send_email()
+				self.send_email(value)
 		
 		data.clear()
 	
@@ -40,8 +42,8 @@ class SpiderMain(object):
 		self.dao.insert_content(value, chapter_content)
 	
 	# 发送邮件
-	def send_email(self):
-		pass
+	def send_email(self, value):
+		self.send.send_mail(value[0], value[2], value[3])
 	
 	# 控制函数
 	def main(self):
