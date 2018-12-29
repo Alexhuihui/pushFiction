@@ -1,3 +1,5 @@
+import time
+
 from spiderFiction import html_downloader, html_parser, dao
 from sendEmail import sendEmail
 
@@ -50,6 +52,7 @@ class SpiderMain(object):
 		urls = self.get_urls()
 		for url in urls:
 			self.get_chapter(url)
+		time.sleep(900)
 
 
 if __name__ == '__main__':
