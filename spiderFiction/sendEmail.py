@@ -10,12 +10,12 @@ path = "configParser.conf"
 class Sender(object):
 	
 	def __init__(self):
-		self.mail_host = read.readValueFromPath(path, "email", "mail_host")  # SMTP服务器
-		self.mail_user = read.readValueFromPath(path, "email", "mail_user")  # 用户名
-		self.mail_pass = read.readValueFromPath(path, "email", "mail_pass")  # 授权密码，非登录密码
+		self.mail_host = "smtp.163.com"  # SMTP服务器
+		self.mail_user = ""  # 用户名
+		self.mail_pass = "QWErty123" # 授权密码，非登录密码
 		
-		self.sender = read.readValueFromPath(path, "email", "sender")
-		self.receivers = [read.readValueFromPath(path, "email", "receiver1")]
+		self.sender = "@163.com"
+		self.receivers = ["2930807240@qq.com"]
 		self.dao = dao.Dao()
 	
 	# 从数据库中查询数据并组合成字符串

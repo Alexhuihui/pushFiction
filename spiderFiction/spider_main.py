@@ -1,5 +1,3 @@
-import time
-
 from spiderFiction import html_downloader, html_parser, dao, sendEmail
 
 

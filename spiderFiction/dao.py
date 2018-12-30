@@ -11,12 +11,12 @@ path = "configParser.conf"
 class Dao(object):
 	
 	def __init__(self):
-		self.host = read.readValueFromPath(path, "db", "host")
-		self.port = read.readIntValue(path, "db", "port")
-		self.user = read.readValueFromPath(path, "db", "user")
-		self.passwd = read.readValueFromPath(path, "db", "passwd")
-		self.db = read.readValueFromPath(path, "db", "db")
-		self.charset = read.readValueFromPath(path, "db", "charset")
+		self.host = "localhost"
+		self.port = 3306
+		self.user = "root"
+		self.passwd = "qwerty123"
+		self.db = "fiction"
+		self.charset = "utf8"
 	
 	def get_conn(self):
 		conn = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.db,
