@@ -1,3 +1,5 @@
+import time
+
 from spiderFiction import html_downloader, html_parser, dao, sendEmail
 
 
@@ -29,7 +31,7 @@ class SpiderMain(object):
 			if rs[0][0] != 1:
 				self.dao.insert_chapter(value)
 				self.craw_content(value)
-				# self.send_email(value)
+				self.send_email(value)
 		
 		data.clear()
 	
@@ -47,11 +49,14 @@ class SpiderMain(object):
 	# 控制函数
 	def main(self):
 		urls = self.get_urls()
+		count = 1
 		for url in urls:
 			self.get_chapter(url)
-		# time.sleep(900)
+		print("完成第%d次巡查" % ++count)
+		time.sleep(60)
 
 
 if __name__ == '__main__':
 	obj_spider = SpiderMain()
-	obj_spider.main()
+	while True:
+		obj_spider.main()

@@ -11,10 +11,10 @@ class Sender(object):
 	
 	def __init__(self):
 		self.mail_host = "smtp.163.com"  # SMTP服务器
-		self.mail_user = ""  # 用户名
+		self.mail_user = "17770848782"  # 用户名
 		self.mail_pass = "QWErty123" # 授权密码，非登录密码
 		
-		self.sender = "@163.com"
+		self.sender = "17770848782@163.com"
 		self.receivers = ["2930807240@qq.com"]
 		self.dao = dao.Dao()
 	
