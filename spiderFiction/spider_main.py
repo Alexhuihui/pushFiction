@@ -1,4 +1,4 @@
-import time
+import time, datetime
 
 from spiderFiction import html_downloader, html_parser, dao, sendEmail
 
@@ -48,15 +48,17 @@ class SpiderMain(object):
 	
 	# 控制函数
 	def main(self):
-		urls = self.get_urls()
 		count = 1
-		for url in urls:
-			self.get_chapter(url)
-		print("完成第%d次巡查" % ++count)
-		time.sleep(60)
+		while True:
+			now = datetime.datetime.now()
+			urls = self.get_urls()
+			for url in urls:
+				self.get_chapter(url)
+			print(now.day, now.hour, now.minute)
+			print("完成第%d次巡查" % ++count)
+			time.sleep(60)
 
 
 if __name__ == '__main__':
 	obj_spider = SpiderMain()
-	while True:
-		obj_spider.main()
+	obj_spider.main()
