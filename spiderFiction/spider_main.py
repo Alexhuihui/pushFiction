@@ -27,31 +27,32 @@ class SpiderMain(object):
 			self.get_new_chapter(url)
 			self.dao.put_novel_status(url)
 			return
-		print(url)
 		html_content = self.downloader.download(url)
 		data = self.parser.parse(url, html_content)
 		# 遍历data
-		for value in data.values():
-			rs = self.dao.select_chapter(value)
-			if rs[0][0] != 1:
-				time.sleep(200)
-				self.dao.insert_chapter(value)
-				self.craw_content(value)
-				self.send_email(value)
+		if data is not None:
+			for value in data.values():
+				rs = self.dao.select_chapter(value)
+				if rs[0][0] != 1:
+					time.sleep(200)
+					self.dao.insert_chapter(value)
+					self.craw_content(value)
+					self.send_email(value)
 		
-		data.clear()
+			data.clear()
 	
 	# 获取新增加的小说的所有章节目录并存入novelchapter表中，但不会爬取章节的具体内容以及发送邮件
 	def get_new_chapter(self, url):
 		html_content = self.downloader.download(url)
 		data = self.parser.parse(url, html_content)
 		# 遍历data
-		for value in data.values():
-			rs = self.dao.select_chapter(value)
-			if rs[0][0] != 1:
-				self.dao.insert_chapter(value)
-		
-		data.clear()
+		if data is not None:
+			for value in data.values():
+				rs = self.dao.select_chapter(value)
+				if rs[0][0] != 1:
+					self.dao.insert_chapter(value)
+			
+			data.clear()
 	
 	# 根据小说的章节地址爬取内容, 并存入到数据库中
 	def craw_content(self, value):
