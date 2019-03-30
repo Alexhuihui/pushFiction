@@ -22,6 +22,11 @@ class SpiderMain(object):
 	"""
 	
 	def get_chapter(self, url):
+		# 根据URL查询对应的status字段如果为0代表是新增加的，就不进行发送邮件，调用get_new_chapter
+		if self.dao.select_new_novel(url) == 0:
+			self.get_new_chapter(url)
+			self.dao.put_novel_status(url)
+			return
 		print(url)
 		html_content = self.downloader.download(url)
 		data = self.parser.parse(url, html_content)
@@ -29,9 +34,22 @@ class SpiderMain(object):
 		for value in data.values():
 			rs = self.dao.select_chapter(value)
 			if rs[0][0] != 1:
+				time.sleep(200)
 				self.dao.insert_chapter(value)
 				self.craw_content(value)
 				self.send_email(value)
+		
+		data.clear()
+	
+	# 获取新增加的小说的所有章节目录并存入novelchapter表中，但不会爬取章节的具体内容以及发送邮件
+	def get_new_chapter(self, url):
+		html_content = self.downloader.download(url)
+		data = self.parser.parse(url, html_content)
+		# 遍历data
+		for value in data.values():
+			rs = self.dao.select_chapter(value)
+			if rs[0][0] != 1:
+				self.dao.insert_chapter(value)
 		
 		data.clear()
 	
@@ -48,14 +66,12 @@ class SpiderMain(object):
 	
 	# 控制函数
 	def main(self):
-		count = 1
 		while True:
 			now = datetime.datetime.now()
 			urls = self.get_urls()
 			for url in urls:
 				self.get_chapter(url)
-			print(now.day, now.hour, now.minute)
-			print("完成第%d次巡查" % ++count)
+			print(now.year, '-', now.month, '-', now.day, '  ', now.hour, ':', now.minute)
 			time.sleep(60)
 
 

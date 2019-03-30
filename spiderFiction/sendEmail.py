@@ -23,9 +23,15 @@ class Sender(object):
 		content = self.dao.select_content(int(novel_id), int(chapter_id))
 		return content
 	
+	# 从数据库中根据novel_id查询书名
+	def select_novel_name(self, novel_id):
+		novel_name = self.dao.select_name(novel_id)
+		return novel_name
+	
 	# 发送邮件
 	def send_mail(self, novel_id, chapter_id, chapter_title):
-		title = chapter_title
+		novel_name = self.select_novel_name(novel_id)
+		title = '《' + novel_name + '》  ' + chapter_title
 		content = self.select_data(novel_id, chapter_id)[0][0]
 		message = MIMEText(content, 'plain', 'utf-8')  # 内容, 格式, 编码
 		message['From'] = "{}".format(self.sender)

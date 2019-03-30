@@ -23,6 +23,22 @@ class Dao(object):
 		                       charset=self.charset)
 		return conn
 	
+	# 根据URL查询小说对应的status字段并返回
+	def select_new_novel(self, url):
+		select_sql = "select novel_status from novelinfo where novel_url = '%s'" % (
+			url)
+		try:
+			conn = self.get_conn()
+			cur = conn.cursor()
+			cur.execute(select_sql)
+			rs = cur.fetchall()
+		except Exception as e:
+			print(e)
+			conn.rollback()
+		cur.close()
+		conn.close()
+		return rs[0][0]
+	
 	# 从novelinfo表中查出所有数据, 返回包含所有小说地址的集合
 	def select_novel(self):
 		select_sql = "select novel_id, novel_url, novel_name from novelinfo"
@@ -56,7 +72,7 @@ class Dao(object):
 		cur.close()
 		conn.close()
 	
-	# 从novelchapter表中差寻是否包含某条记录
+	# 从novelchapter表中查询是否包含某条记录
 	def select_chapter(self, chapter_list):
 		select_sql = "select COUNT(*) from novelchapter where novel_id = '%d' and chapter_real_id = '%d' " % (
 			int(chapter_list[0]), int(chapter_list[2]))
@@ -106,6 +122,39 @@ class Dao(object):
 		conn.close()
 		return rs
 
+	# 从数据库中根据novel_id查询书名
+	def select_name(self, novel_id):
+		select_sql = "select novel_name from novelinfo where novel_id = '%d'" % (
+			novel_id)
+		try:
+			conn = self.get_conn()
+			cur = conn.cursor()
+			cur.execute(select_sql)
+			rs = cur.fetchall()
+		except Exception as e:
+			print(e)
+			conn.rollback()
+		cur.close()
+		conn.close()
+		return rs[0][0]
+	
+	# 修改novel_status
+	def put_novel_status(self, url):
+		update_sql = "update novelinfo set novel_status = 1 where novel_url = '%s'" % (
+			url)
+		try:
+			conn = self.get_conn()
+			cur = conn.cursor()
+			cur.execute(update_sql)
+			conn.commit()
+		except Exception as e:
+			print(e)
+			conn.rollback()
+		cur.close()
+		conn.close()
+
 
 if __name__ == '__main__':
 	dao = Dao()
+	print(dao.select_name(36825))
+	print(dao.put_novel_status('http://www.biquge.com.cn/book/30152/'))
