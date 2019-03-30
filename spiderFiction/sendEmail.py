@@ -25,7 +25,7 @@ class Sender(object):
 	
 	# 从数据库中根据novel_id查询书名
 	def select_novel_name(self, novel_id):
-		novel_name = self.dao.select_name(novel_id)
+		novel_name = self.dao.select_name(int(novel_id))
 		return novel_name
 	
 	# 发送邮件
