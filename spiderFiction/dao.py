@@ -14,7 +14,7 @@ class Dao(object):
 		self.host = "localhost"
 		self.port = 3306
 		self.user = "root"
-		self.passwd = "qwerty123"
+		self.passwd = "QWErty123"
 		self.db = "fiction"
 		self.charset = "utf8"
 	

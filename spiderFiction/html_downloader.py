@@ -11,7 +11,7 @@ class HtmlDownloader(object):
 				ssl._create_default_https_context = ssl._create_unverified_context
 				
 				headers = {
-					'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0)'
+					'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Mobile Safari/537.36'
 				}
 				req = request.Request(url=url, headers=headers)
 				
