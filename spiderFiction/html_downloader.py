@@ -1,4 +1,5 @@
 from urllib import request
+from fake_useragent import UserAgent
 import ssl
 import requests
 
@@ -10,8 +11,10 @@ class HtmlDownloader(object):
 			try:
 				ssl._create_default_https_context = ssl._create_unverified_context
 				
+				ua = UserAgent()
+				
 				headers = {
-					'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2'
+					'User-Agent': ua.random
 				}
 				req = request.Request(url=url, headers=headers)
 				
